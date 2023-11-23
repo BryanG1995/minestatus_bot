@@ -7,7 +7,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 
 
 
-
+//ejecuciones iniciales del bot, inicializacion de los comandos
 client.on('ready', (x) => {
   console.log(`Bot iniciado como ${x.user.tag}!`);
   client.user.setActivity('Hola soy un bot');
@@ -26,9 +26,12 @@ client.on('ready', (x) => {
   client.application.commands.create(ping);
 });
 
+
+//funciones de los comandos creados anteriormente
 client.on('interactionCreate', async (interaction) => {
 
-
+  
+//comando de ping, al utilizando, devuelve un mensaje escrito basico, con la info de cantidad de jugadores online y sus nicks
   if (!interaction.isChatInputCommand()) return;
   if (interaction.commandName === 'ping') {
 
@@ -44,20 +47,28 @@ client.on('interactionCreate', async (interaction) => {
     }
   }
 
+//comando de marco, devuelve un mensaje formato embed, el cual posee una mejor estructura del mensaje
   if (interaction.commandName === 'marco') {
-
+    
     const { data } = await connectionApi.get();
     const { players } = data;
-
+    
     const list = listArray(players.list);
 
     const pintura = pinturaCreate(players.online, players.max, list);
-
+    if(data.online = true) {
+      pintura.setAuthor({ name: 'ONLINE', iconURL: 'https://img.icons8.com/?size=256&id=63312&format=png', url: 'https://discord.js.org' })
+    }else {
+      pintura.setAuthor({ name: 'OFFLINE', iconURL: 'https://img.icons8.com/?size=256&id=81432&format=png', url: 'https://discord.js.org' })
+      
+    }
+  
 
     //llamado de embed creado en la parte superior
     interaction.reply({ embeds: [pintura] });
 
   }
+  
 
 });
 

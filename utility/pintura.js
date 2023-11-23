@@ -10,7 +10,7 @@ const pinturaCreate = (online, max, playerList) => {
         .setURL('https://mcsrvstat.us/server/Tutocraft.g.akliz.net')
         .setAuthor({ name: 'Tutocraft', iconURL: 'https://i.imgur.com/gHNxlpb.png', url: 'https://discord.js.org' })
         .addFields({ name: 'Jugadores Online', value: `${online}/${max}`, inline: true })
-        .addFields({ name: 'Tutocraft.g.akliz.net', value: `Ip Server`, inline: true })
+        .addFields({ name: 'Tutocraft.g.akliz.net', value: ' ', inline: true })
         .addFields({ name: 'Jugadores', value: `${playerList}`})
         .setTimestamp()
         .setImage('https://i.imgur.com/gHNxlpb.png')
