@@ -49,27 +49,28 @@ client.on('interactionCreate', async (interaction) => {
 
 //comando de marco, devuelve un mensaje formato embed, el cual posee una mejor estructura del mensaje
   if (interaction.commandName === 'marco') {
-    
+     
     const { data } = await connectionApi.get();
     const { players } = data;
-    
-    const list = listArray(players.list);
+   
+    const status_server = data.online;
+    let list;
+    let pintura;
+    console.log(status_server);
 
-    const pintura = pinturaCreate(players.online, players.max, list);
-    if(data.online = true) {
-      pintura.setAuthor({ name: 'ONLINE', iconURL: 'https://img.icons8.com/?size=256&id=63312&format=png', url: 'https://discord.js.org' })
-    }else {
-      pintura.setAuthor({ name: 'OFFLINE', iconURL: 'https://img.icons8.com/?size=256&id=81432&format=png', url: 'https://discord.js.org' })
-      
+    // if encargado de comprobar si el listado de jugadores está definido y si el server está online
+    if (listArray  && status_server ){
+      list = listArray(players.list);
+      pintura = pinturaCreate(players.online, players.max, list);
+      pintura.setAuthor({ name: 'ONLINE', iconURL: 'https://img.icons8.com/?size=256&id=63312&format=png', url: 'https://discord.js.org' });
     }
-  
-
-    //llamado de embed creado en la parte superior
+    else{
+      pintura = pinturaCreate(0, 0, [` `]);
+      pintura.setAuthor({ name: 'OFFLINE', iconURL: 'https://img.icons8.com/?size=256&id=81432&format=png', url: 'https://discord.js.org' });
+    }
     interaction.reply({ embeds: [pintura] });
-
   }
   
-
 });
 
 client.login(process.env.TOKEN);
@@ -78,18 +79,15 @@ client.login(process.env.TOKEN);
 const listArrayOld = (listUser) => {
 
   let users = ``;
-
   for (let i = 0; i < listUser.length; i++) {
     users += listUser[i].name + '\n';
   }
-
   return users.trim();
 }
 
 const listArray = (listUser) => {
 
   // let users = [];
-
   if (!listUser) {
     return [`No hay Jugadores`];
   }
@@ -99,7 +97,6 @@ const listArray = (listUser) => {
   // }
 
   const usuariosComoString = listUser.map(user => " \`\`" + user.name + "\`\`")
-
 
   // return users.join('\n');
   return usuariosComoString;
