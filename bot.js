@@ -22,7 +22,11 @@ client.on('ready', (x) => {
 
   const marco_comando = new SlashCommandBuilder()
     .setName('marco')
-    .setDescription('Marco embed');
+    .setDescription('Marco embed')
+    .addStringOption( option => 
+      option.setName('ip')
+      .setDescription('ip server'))
+    ;
 
 
   client.application.commands.create(marco_comando);
@@ -58,26 +62,35 @@ client.on('interactionCreate', async (interaction) => {
 
 //comando de marco, devuelve un mensaje formato embed, el cual posee una mejor estructura del mensaje
   if (interaction.commandName === 'marco') {
-     
-    const { data } = await connectionApi.get();
+
+    try {
+      let ip = interaction.options.getString('ip');
+    const { data } = await connectionApi.get(ip);
     const { players } = data;
-   
+  // TODO: agregar de que la foto respuesta del bot sea la foto del server
+
     const status_server = data.online;
     let list;
     let pintura;
-    console.log(status_server);
+   
 
     // if encargado de comprobar si el listado de jugadores está definido y si el server está online
     if (listArray  && status_server ){
       list = listArray(players.list);
-      pintura = pinturaCreate(players.online, players.max, list);
-      pintura.setAuthor({ name: 'ONLINE', iconURL: 'https://img.icons8.com/?size=256&id=63312&format=png', url: 'https://discord.js.org' });
+      pintura = pinturaCreate(players.online, players.max, list,ip);
+      pintura.setAuthor({ name: 'ONLINE', iconURL: 'https://img.icons8.com/?size=256&id=63312&format=png', url: 'https://discord.js.org'});
+     
     }
     else{
-      pintura = pinturaCreate(0, 0, [` `]);
+      pintura = pinturaCreate(0, 0, [` `],ip);
       pintura.setAuthor({ name: 'OFFLINE', iconURL: 'https://img.icons8.com/?size=256&id=81432&format=png', url: 'https://discord.js.org' });
+
     }
     interaction.reply({ embeds: [pintura] });
+    } catch (error) {
+      console.log(error);
+    }
+    
   }
   
 });
