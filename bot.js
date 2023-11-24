@@ -14,7 +14,11 @@ client.on('ready', (x) => {
 
   const ping = new SlashCommandBuilder()
     .setName('ping')
-    .setDescription('Ping a server');
+    .setDescription('Ping a server')
+    .addStringOption( option => 
+      option.setName('mensaje')
+      .setDescription('mensaje solicitado'))
+    ;
 
   const marco_comando = new SlashCommandBuilder()
     .setName('marco')
@@ -34,13 +38,18 @@ client.on('interactionCreate', async (interaction) => {
 //comando de ping, al utilizando, devuelve un mensaje escrito basico, con la info de cantidad de jugadores online y sus nicks
   if (!interaction.isChatInputCommand()) return;
   if (interaction.commandName === 'ping') {
-
+    let mensaje = interaction.options.getString('mensaje');
+    
     try {
-      const { data } = await connectionApi.get();
-      const { players } = data
-      interaction.reply(`
-      Jugadores Online: ${players.online}/${players.max}\nJugadores: \n ${listArrayOld(players.list)}
-      `);
+      // const { data } = await connectionApi.get();
+      // const { players } = data
+      // interaction.reply(` ${mensaje}
+      // Jugadores Online: ${players.online}/${players.max}\nJugadores: \n ${listArrayOld(players.list)}
+      // `);
+
+      interaction.reply(` El mensaje escrito es:  ${mensaje}
+       
+       `);
 
     } catch (error) {
       console.log(error);
