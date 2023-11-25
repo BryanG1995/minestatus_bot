@@ -14,7 +14,7 @@ const pinturaCreate = (online, max, playerList,ip) => {
         .addFields({ name: 'Jugadores', value: `${playerList}`})
         .setTimestamp()
         .setImage('https://i.imgur.com/gHNxlpb.png')
-        .setFooter({ text: 'By Paserno and Kuri', iconURL: 'https://i.imgur.com/gHNxlpb.png' });
+        .setFooter({ text: 'By Paserno and Kuri', iconURL: 'https://i.imgur.com/jhLb7Qu.png' });
 
     return pintura;
 }
