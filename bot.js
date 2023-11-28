@@ -1,8 +1,9 @@
 require('dotenv').config();
 const connectionApi = require('./api');
 const pinturaCreate = require('./utility/pintura');
+const pingDibujo = require('./ping_dibujo');
 
-const { Client, GatewayIntentBits, EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Permissions,AttachmentBuilder } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Permissions, AttachmentBuilder } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 
@@ -15,17 +16,17 @@ client.on('ready', (x) => {
   const ping = new SlashCommandBuilder()
     .setName('ping')
     .setDescription('Ping a server')
-    .addStringOption( option => 
+    .addStringOption(option =>
       option.setName('mensaje')
-      .setDescription('mensaje solicitado'))
+        .setDescription('mensaje solicitado'))
     ;
 
   const marco_comando = new SlashCommandBuilder()
     .setName('marco')
     .setDescription('Marco embed')
-    .addStringOption( option => 
+    .addStringOption(option =>
       option.setName('ip')
-      .setDescription('ip server'))
+        .setDescription('ip server'))
     ;
 
 
@@ -38,12 +39,12 @@ client.on('ready', (x) => {
 //funciones de los comandos creados anteriormente
 client.on('interactionCreate', async (interaction) => {
 
-  
-//comando de ping, al utilizando, devuelve un mensaje escrito basico, con la info de cantidad de jugadores online y sus nicks
+
+  //comando de ping, al utilizando, devuelve un mensaje escrito basico, con la info de cantidad de jugadores online y sus nicks
   if (!interaction.isChatInputCommand()) return;
   if (interaction.commandName === 'ping') {
     let mensaje = interaction.options.getString('mensaje');
-    
+
     try {
       // const { data } = await connectionApi.get();
       // const { players } = data
@@ -51,55 +52,42 @@ client.on('interactionCreate', async (interaction) => {
       // Jugadores Online: ${players.online}/${players.max}\nJugadores: \n ${listArrayOld(players.list)}
       // `);
 
-      interaction.reply(` El mensaje escrito es:  ${mensaje}
+      await interaction.reply(` El mensaje escrito es:  ${mensaje}
        
        `);
+      await sleep(5000);
+      await interaction.editReply('hola me editaron');
+
 
     } catch (error) {
       console.log(error);
     }
   }
 
-//comando de marco, devuelve un mensaje formato embed, el cual posee una mejor estructura del mensaje
+  //comando de marco, devuelve un mensaje formato embed, el cual posee una mejor estructura del mensaje
   if (interaction.commandName === 'marco') {
 
-    try {
-      let ip = interaction.options.getString('ip');
-    const { data } = await connectionApi.get(ip);
-    const { players } = data;
+    const dibujo = await pingDibujo(interaction);
+
+    if (Object.keys(dibujo).length === 0) {
+      await interaction.reply('hola, fallé');
+      return;
+    }
+    await interaction.reply(dibujo);
 
 
-    const status_server = data.online;
-    let list;
-    let pintura;
-   
-    //asignacion de data de icono recibido por la api, primero se transforma en un buffer y luego usa AttachmentBuilder
-    const imgBase64 = data.icon;
-    const bufferImage = Buffer.from(imgBase64.split(',').slice(1).join(','), 'base64');
-    const file = new AttachmentBuilder(bufferImage,{ name: 'icon.png' });
+
+    const dibujoNew = await sleep(1000 * 60 * 1, interaction);
     
 
-    // if encargado de comprobar si el listado de jugadores está definido y si el server está online
-    if (listArray  && status_server ){
-      list = listArray(players.list);
-      pintura = pinturaCreate(players.online, players.max, list,ip);
-      pintura.setAuthor({ name: 'ONLINE', iconURL: 'https://img.icons8.com/?size=256&id=63312&format=png', url: 'https://discord.js.org'});
-      pintura.setImage('attachment://icon.png');
-     
+    if (Object.keys(dibujoNew).length === 0) {
+      await interaction.reply('hola, fallé rayos!');
+      return;
     }
-    else{
-      pintura = pinturaCreate(0, 0, [` `],ip);
-      pintura.setAuthor({ name: 'OFFLINE', iconURL: 'https://img.icons8.com/?size=256&id=81432&format=png', url: 'https://discord.js.org' });
+    await interaction.editReply(dibujoNew);
 
-    }
-    interaction.reply({ embeds: [pintura], files: [file] });
-
-    } catch (error) {
-      console.log(error);
-    }
-    
   }
-  
+
 });
 
 client.login(process.env.TOKEN);
@@ -114,21 +102,20 @@ const listArrayOld = (listUser) => {
   return users.trim();
 }
 
-const listArray = (listUser) => {
 
-  // let users = [];
-  if (!listUser) {
-    return [`No hay Jugadores`];
-  }
 
-  // for (let i = 0; i < listUser.length; i++) {
-  //   users.push(`${listUser[i].name}`);
-  // }
+function sleep(ms, interaction) {
 
-  const usuariosComoString = listUser.map(user => " \`\`" + user.name + "\`\`")
 
-  // return users.join('\n');
-  return usuariosComoString;
+  return new Promise(resolve => {
+    setTimeout(async () => {
+      const resultado =  await pingDibujo(interaction);
+      resolve(resultado);
+
+    }, ms);
+
+  });
+
 }
 
 //nodemon bot.js
