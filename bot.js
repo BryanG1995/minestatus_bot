@@ -44,6 +44,7 @@ client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   if (interaction.commandName === 'ping') {
     let mensaje = interaction.options.getString('mensaje');
+    var i= 1;
 
     try {
       // const { data } = await connectionApi.get();
@@ -55,9 +56,25 @@ client.on('interactionCreate', async (interaction) => {
       await interaction.reply(` El mensaje escrito es:  ${mensaje}
        
        `);
-      await sleep(5000);
-      await interaction.editReply('hola me editaron');
+      //await sleep(5000);
 
+      var intervalID = setInterval(async function(){
+
+        
+        interaction.editReply(`hola me editaron  ${i} veces cada minuto` );
+        i++;
+        if (i == 25) {
+          clearInterval(intervalID);
+          console.log(`Ejecución detenida después de ${i} iteraciones`);
+          interaction.editReply(`hola me editaron  ${i} veces y cumplí mis iteraciones ` );
+        }
+
+
+        }, 1000 * 60 * 1)
+
+
+      //await interaction.editReply('hola me editaron');
+      
 
     } catch (error) {
       console.log(error);
@@ -115,6 +132,7 @@ function sleep(ms, interaction) {
     }, ms);
 
   });
+
 
 }
 
