@@ -1,7 +1,7 @@
 require('dotenv').config();
-const connectionApi = require('./api');
-const pinturaCreate = require('./utility/pintura');
-const pingDibujo = require('./ping_dibujo');
+const connectionApi = require('./src/api');
+const pinturaCreate = require('./src/utility/pintura');
+const pingDibujo = require('./src/ping_dibujo');
 
 const { Client, GatewayIntentBits, EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Permissions, AttachmentBuilder } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
