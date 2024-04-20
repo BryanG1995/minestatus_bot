@@ -1,27 +1,36 @@
 const { INTERVAL_DURATION } = require("../constants/general");
 const pingDibujo = require("../ping_dibujo");
 const sleep = require("./sleep");
+const bardoIA = require("./ia_bard");
 
 const handlePingCommand = async (interaction) => {
-    try {
-        let mensaje = interaction.options.getString('mensaje');
-        let i = 1;
-        await interaction.reply(` El mensaje escrito es:  ${mensaje}`);
+    
+    let mensaje = interaction.options.getString('mensaje');
 
-        const intervalID = setInterval(async function () {
+    const respuesta = await bardoIA(mensaje);
+    
+    await interaction.reply( "**" + mensaje + "**"+ ": \`\`\`" + respuesta + "\`\`\`");
+    //await interaction.reply(` El mensaje escrito es:  ${respuesta}`);
 
-            interaction.editReply(`hola me editaron  ${i} veces cada minuto`);
-            i++;
-            if (i === 15) {
-                clearInterval(intervalID);
-                console.log(`Ejecución detenida después de ${i} iteraciones`);
-                interaction.editReply(`hola me editaron  ${i} veces y cumplí mis iteraciones `);
-            }
+    // try {
+    //     let mensaje = interaction.options.getString('mensaje');
+    //     let i = 1;
+    //     await interaction.reply(` El mensaje escrito es:  ${mensaje}`);
 
-        }, INTERVAL_DURATION)
-    } catch (error) {
-        console.log(error);
-    }
+    //     const intervalID = setInterval(async function () {
+
+    //         interaction.editReply(`hola me editaron  ${i} veces cada minuto`);
+    //         i++;
+    //         if (i === 15) {
+    //             clearInterval(intervalID);
+    //             console.log(`Ejecución detenida después de ${i} iteraciones`);
+    //             interaction.editReply(`hola me editaron  ${i} veces y cumplí mis iteraciones `);
+    //         }
+
+    //     }, INTERVAL_DURATION)
+    // } catch (error) {
+    //     console.log(error);
+    // }
 }
 
 const handleMarcoCommand = async (interaction) => {
@@ -44,8 +53,16 @@ const handleMarcoCommand = async (interaction) => {
     await interaction.editReply(dibujoNew);
 }
 
+const handleIACommand = async (interaction) => {
+    let mensaje = interaction.options.getString('mensaje');
+
+    const respuesta = await bardoIA(mensaje);
+    await interaction.reply(respuesta);
+
+}
 
 module.exports = {
     handlePingCommand, 
     handleMarcoCommand,
+    handleIACommand,
 }

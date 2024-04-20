@@ -13,12 +13,16 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 // For text-only input, use the gemini-pro model
 const model = genAI.getGenerativeModel({ model: "gemini-pro"});
 
-async function run() {
-    const prompt = "Cuentame un dato curioso sobre el juego stardew valley."
+
+  const bardoIA = async (promt_msg) => {
+
+    const prompt = promt_msg;
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    console.log(text);
+    return text;
+    //console.log(text);
   }
   
-  run();
+  module.exports = bardoIA;
+  //run();
