@@ -17,13 +17,7 @@ npm install
 ## Usage
 
 ```sh
-node app.js
-```
-
-## Run tests
-
-```sh
-npm run test
+npm start
 ```
 
 ## Author
