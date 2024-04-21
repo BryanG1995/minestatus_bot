@@ -1,5 +1,5 @@
 const sleep = require('./sleep');
-const { handleMarcoCommand, handlePingCommand,handleIACommand } = require('./commands');
+const { handleMarcoCommand, handlePingCommand, handleIACommand, handleChatCommand } = require('./commands');
 
 
 module.exports = {
@@ -7,4 +7,5 @@ module.exports = {
     handleMarcoCommand,
     handlePingCommand,
     handleIACommand,
+    handleChatCommand,
 }

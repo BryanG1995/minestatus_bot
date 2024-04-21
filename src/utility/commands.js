@@ -1,10 +1,10 @@
 const { INTERVAL_DURATION } = require("../constants/general");
 const pingDibujo = require("../ping_dibujo");
 const sleep = require("./sleep");
-const bardoIA = require("./ia_bard");
+const { bardoIA, chatIA } = require("./ia_bard");
 
 const handlePingCommand = async (interaction) => {
-    
+
 
     await interaction.reply(` El mensaje escrito es:  ${respuesta}`);
 
@@ -53,13 +53,23 @@ const handleIACommand = async (interaction) => {
     let mensaje = interaction.options.getString('mensaje');
 
     const respuesta = await bardoIA(mensaje);
-    
-    await interaction.reply( "**" + mensaje + "**"+ ": \`\`\`" + respuesta + "\`\`\`");
+
+    await interaction.reply("**" + mensaje + "**" + ": \`\`\`" + respuesta + "\`\`\`");
+
+}
+
+const handleChatCommand = async (interaction) => {
+    let mensaje = interaction.options.getString('mensaje');
+
+    const respuesta = await chatIA(mensaje);
+
+    await interaction.reply("\`\`\`" + respuesta + "\`\`\`");
 
 }
 
 module.exports = {
-    handlePingCommand, 
+    handlePingCommand,
     handleMarcoCommand,
     handleIACommand,
+    handleChatCommand,
 }
