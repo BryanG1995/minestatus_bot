@@ -1,7 +1,14 @@
 require('dotenv').config();
+const Server = require('./src/models/server');
+
 const { Client, GatewayIntentBits, SlashCommandBuilder } = require('discord.js');
 const { handlePingCommand, handleMarcoCommand, handleIACommand, handleChatCommand } = require('./src/utility');
 const { COMMANDS } = require('./src/constants/general');
+
+
+// Server on!
+const server = new Server();
+server.listen();
 
 
 // const { Client, GatewayIntentBits, EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Permissions, AttachmentBuilder } = require('discord.js');
@@ -73,6 +80,8 @@ client.on('interactionCreate', async (interaction) => {
 
 client.login(process.env.TOKEN);
 
+
+// client.destroy();
 
 
 
