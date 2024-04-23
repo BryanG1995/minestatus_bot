@@ -1,9 +1,9 @@
 require('dotenv').config();
-const Server = require('./src/models/server');
+const Server = require('./models/server');
 
 const { Client, GatewayIntentBits, SlashCommandBuilder } = require('discord.js');
-const { handlePingCommand, handleMarcoCommand, handleIACommand, handleChatCommand } = require('./src/utility');
-const { COMMANDS } = require('./src/constants/general');
+const { handlePingCommand, handleMarcoCommand, handleIACommand, handleChatCommand } = require('./utility');
+const { COMMANDS } = require('./constants/general');
 
 
 // Server on!

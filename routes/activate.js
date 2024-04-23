@@ -1,9 +1,9 @@
 const { Router } = require('express');
+const { activate } = require('../controllers/activate');
 
 const router = Router();
 
-router.get('/', (req, res) => res.status(200).json(
-    msg = 'hola funciona jijjii'));
+router.get('/', activate);
 
 
 module.exports = router;

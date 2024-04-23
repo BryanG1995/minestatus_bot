@@ -8,7 +8,6 @@ class Server {
 
         this.path = {
             activate: '/api/activate',
-            // future paths jiji
         }
 
 
