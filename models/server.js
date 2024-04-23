@@ -8,6 +8,7 @@ class Server {
 
         this.path = {
             activate: '/api/activate',
+            deactivate: '/api/deactivate',
         }
 
 
@@ -24,6 +25,7 @@ class Server {
 
     routes(){
         this.app.use( this.path.activate, require('../routes/activate'));
+        this.app.use( this.path.deactivate, require('../routes/deactivate'));
     }
 
     listen(){

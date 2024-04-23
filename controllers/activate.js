@@ -12,7 +12,7 @@ const activate = (req, res = response) => {
 const deactivate = (req, res = response) => {
     
     res.status(200).json(
-        msg = 'desactivado')
+        msg = 'k pro soy, lo he desactivado , Kuri')
 
 }
 
