@@ -8,15 +8,14 @@ const { destruirCliente, revisionStatus, loginClient } = require('../utility/dis
 
 const activate = (req, res = response) => {
 
-    // res.status(200).json(
-    //     msg = 'hola esta activado jijjii')
-
     // const filePath = path.resolve(__dirname, '../public/index.html');
 
     loginClient();
     // res.sendFile(filePath);
-    return res.status(200).json(
-        msg = 'activado jijjii')
+    return res.status(200).json({
+        ok: true,
+        msg: 'activado jijjii',
+    })
 
 }
 
@@ -24,10 +23,10 @@ const activate = (req, res = response) => {
 
 const deactivate = (req, res = response) => {
     destruirCliente();
-
-
-    return res.status(200).json(
-        msg = 'k pro soy, lo he desactivado , Kuri')
+    return res.status(200).json({
+        ok: false,
+        msg: 'k pro soy, lo he desactivado , Kuri'
+    })
 
 
 
