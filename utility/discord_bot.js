@@ -6,10 +6,6 @@ const { handleMarcoCommand, handlePingCommand, handleIACommand, handleChatComman
 
 const { COMMANDS } = require('../constants/general');
 
-let status = false;
-
-
-
 // const { Client, GatewayIntentBits, EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Permissions, AttachmentBuilder } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
@@ -78,7 +74,10 @@ client.on('interactionCreate', async (interaction) => {
 });
 
 
-client.login(process.env.TOKEN);
+const loginClient = () => {
+    
+    client.login(process.env.TOKEN);
+}
 
 
 
@@ -92,23 +91,33 @@ const destruirCliente = () => {
 
     } else {
         console.error('El cliente Discord no está definido.');
-
     }
 }
 
 const revisionStatus = () => {
     const destroyed = client.rest.hashTimer._destroyed;
-    if (!destroyed) { //(destroyed == false)
-        console.log(' no estoy apagado',destroyed)
-      return true
-    } else {
-        console.log(' estoy apagado',destroyed)
+    const webSocket = client.ws._ws;
+
+    if (!webSocket) {
+        console.log('no hay socket');
         return false;
+    };
+
+    //* si esta en true destroyed esta destruido
+    if (destroyed) {
+        console.log('estoy apagado', destroyed);
+        return !destroyed
     }
+    console.log('estoy prendidizimmooo', destroyed);
+    return !destroyed;
 }
 
 
-module.exports = { destruirCliente, revisionStatus };
+module.exports = {
+    destruirCliente,
+    revisionStatus,
+    loginClient
+};
 
 
 
