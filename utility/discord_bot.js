@@ -58,14 +58,8 @@ const handleReadyEvent = (x) => {
 //ejecuciones iniciales del bot, inicializacion de los comandos
 client.on('ready', (x) => {
     handleReadyEvent(x);
-    status = true;
-    console.log('estado dentro' , status);
-
-
-
-
 });
-// console.log('estado fuera' , status);
+
 
 
 
@@ -93,24 +87,22 @@ const destruirCliente = () => {
         client.destroy()
             .then(() => {
                 console.log('Cliente Discord destruido exitosamente')
-                status = false;
-                console.log(status);
             })
             .catch(error => console.error('Error al destruir el cliente Discord:', error));
 
-        return 'hola'
     } else {
         console.error('El cliente Discord no está definido.');
-        return 'falla'
+
     }
 }
 
 const revisionStatus = () => {
-    if (client) {
-        console.log(client)
+    const destroyed = client.rest.hashTimer._destroyed;
+    if (destroyed == false) {
+        console.log(' no estoy apagado',destroyed)
       return true
     } else {
-        console.log(client)
+        console.log(' estoy apagado',destroyed)
         return false;
     }
 }

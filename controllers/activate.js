@@ -19,8 +19,8 @@ const activate = (req, res = response) => {
 
 
 const deactivate = (req, res = response) => {
-    const result =  destruirCliente();
-    console.log(result);
+   destruirCliente();
+  
 
     return res.status(200).json(
         msg = 'k pro soy, lo he desactivado , Kuri')
@@ -31,8 +31,16 @@ const deactivate = (req, res = response) => {
 
 const status = (req, res = response) => {
     const estado = revisionStatus();
+    if (estado == true ) 
+    {
+        msg = 'Estoy prendido'
+    }
+    else 
+    {
+        msg = 'Estoy apagado'
+    }
     return res.status(200).json({
-        msg : 'hola soy un status ',
+        msg : msg,
         estado
     })
 
