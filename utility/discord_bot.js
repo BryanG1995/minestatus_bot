@@ -98,7 +98,7 @@ const destruirCliente = () => {
 
 const revisionStatus = () => {
     const destroyed = client.rest.hashTimer._destroyed;
-    if (destroyed == false) {
+    if (!destroyed) { //(destroyed == false)
         console.log(' no estoy apagado',destroyed)
       return true
     } else {
