@@ -1,13 +1,15 @@
 require('dotenv').config();
 
-
 const { Client, GatewayIntentBits, SlashCommandBuilder } = require('discord.js');
 const { handleMarcoCommand, handlePingCommand, handleIACommand, handleChatCommand } = require('./commands');
 
 const { COMMANDS } = require('../constants/general');
 
+
 // const { Client, GatewayIntentBits, EmbedBuilder, SlashCommandBuilder, PermissionsBitField, Permissions, AttachmentBuilder } = require('discord.js');
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+const client = new Client({
+    intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
+});
 
 
 
@@ -52,9 +54,7 @@ const handleReadyEvent = (x) => {
 
 
 //ejecuciones iniciales del bot, inicializacion de los comandos
-client.on('ready', (x) => {
-    handleReadyEvent(x);
-});
+client.on('ready', (x) => handleReadyEvent(x));
 
 
 
@@ -63,32 +63,32 @@ client.on('ready', (x) => {
 client.on('interactionCreate', async (interaction) => {
     /** comando de ping, al utilizando, devuelve un mensaje escrito basico, con la info de cantidad de jugadores online y sus nicks
      *  */
-
     if (!interaction.isChatInputCommand()) return;
 
-    if (interaction.commandName === COMMANDS.PING) await handlePingCommand(interaction);
-    if (interaction.commandName === COMMANDS.MARCO) await handleMarcoCommand(interaction);
-    if (interaction.commandName === COMMANDS.BARDOIA) await handleIACommand(interaction);
-    if (interaction.commandName === COMMANDS.CHAT) await handleChatCommand(interaction);
+    switch (interaction.commandName) {
+        case COMMANDS.PING:
+            return await handlePingCommand(interaction);
+        case COMMANDS.MARCO:
+            return await handleMarcoCommand(interaction);
+        case COMMANDS.BARDOIA:
+            return await handleIACommand(interaction);
+        case COMMANDS.CHAT:
+            return await handleChatCommand(interaction);
+        default: return;
+    }
     //comando de marco, devuelve un mensaje formato embed, el cual posee una mejor estructura del mensaje
 });
 
 
-const loginClient = () => {
-    
-    client.login(process.env.TOKEN);
-}
+const loginClient = () => client.login(process.env.TOKEN);
 
 
 
 const destruirCliente = () => {
     if (client) {
         client.destroy()
-            .then(() => {
-                console.log('Cliente Discord destruido exitosamente')
-            })
+            .then(() => console.log('Cliente Discord destruido exitosamente'))
             .catch(error => console.error('Error al destruir el cliente Discord:', error));
-
     } else {
         console.error('El cliente Discord no está definido.');
     }
@@ -97,6 +97,7 @@ const destruirCliente = () => {
 const revisionStatus = () => {
     const destroyed = client.rest.hashTimer._destroyed;
     const webSocket = client.ws._ws;
+    // console.log(client);
 
     if (!webSocket) {
         console.log('no hay socket');
