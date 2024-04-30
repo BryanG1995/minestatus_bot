@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 class Server {
 
@@ -17,23 +18,24 @@ class Server {
         this.routes();
     }
 
-    middlewares(){ 
+    middlewares() {
         // futures cors
+        this.app.use(cors());
 
-        this.app.use( express.json() );
-        this.app.use( express.static('public'));
+        this.app.use(express.json());
+        this.app.use(express.static('public'));
     }
 
-    routes(){
-        this.app.use( this.path.activate, require('../routes/activate'));
-        this.app.use( this.path.deactivate, require('../routes/deactivate'));
+    routes() {
+        this.app.use(this.path.activate, require('../routes/activate'));
+        this.app.use(this.path.deactivate, require('../routes/deactivate'));
     }
 
-    listen(){
+    listen() {
         this.app.listen(this.port, () => {
             console.log('Server conectado en el puerto:', this.port);
         })
-     }
+    }
 }
 
 
