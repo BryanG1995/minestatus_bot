@@ -51,11 +51,12 @@ const handleMarcoCommand = async (interaction) => {
 
 const handleIACommand = async (interaction) => {
     let mensaje = interaction.options.getString('mensaje');
-    await interaction.reply(`https://tenor.com/view/tom-tom-and-jerry-waiting-tom-waiting-gif-17813304`);
+    const gif = randomGif();
+    await interaction.reply(gif);
 
     const respuesta = await bardoIA(mensaje);
     await interaction.editReply("**" + mensaje + "**" + ": \`\`\`" + respuesta + "\`\`\`");
-    
+
 }
 
 
@@ -66,6 +67,19 @@ const handleChatCommand = async (interaction) => {
 
     await interaction.reply("\`\`\`" + respuesta + "\`\`\`");
 
+}
+
+const randomGif = () => {
+
+    const randomNumber = Math.floor(Math.random() * 5);// + 1;
+    const array = [
+        `https://tenor.com/view/tom-tom-and-jerry-waiting-tom-waiting-gif-17813304`,
+        'https://media1.tenor.com/m/aPUYKL5uXmUAAAAC/esp%C3%A9rame-tantito-finn.gif',   
+        'https://media1.tenor.com/m/g2MjY5JXl1gAAAAd/espereme-un-momento-por-favor-betty.gif',
+        'https://tenor.com/bE0vI.gif',
+        'https://tenor.com/bIRcU.gif'
+    ]
+    return array[randomNumber];
 }
 
 module.exports = {

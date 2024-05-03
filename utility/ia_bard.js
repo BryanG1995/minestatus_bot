@@ -58,6 +58,9 @@ const chatIA = async (prompt_msg) => {
 
   const chat = model.startChat({
     history: chatHistory,
+    generationConfig: {
+      maxOutputTokens: 100,
+    },
     /**
      * 
      * [
@@ -71,10 +74,6 @@ const chatIA = async (prompt_msg) => {
      *  },
      * ],
      */
-
-    generationConfig: {
-      maxOutputTokens: 100,
-    },
   });
 
   // const msg = "How many paws are in my house?";
