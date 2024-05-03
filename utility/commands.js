@@ -51,7 +51,7 @@ const handleMarcoCommand = async (interaction) => {
 
 const handleIACommand = async (interaction) => {
     let mensaje = interaction.options.getString('mensaje');
-    await interaction.reply(`Espere ...`);
+    await interaction.reply(`https://tenor.com/view/tom-tom-and-jerry-waiting-tom-waiting-gif-17813304`);
 
     const respuesta = await bardoIA(mensaje);
     await interaction.editReply("**" + mensaje + "**" + ": \`\`\`" + respuesta + "\`\`\`");
