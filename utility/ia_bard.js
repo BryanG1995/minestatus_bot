@@ -50,16 +50,20 @@ const chatIA = async (prompt_msg) => {
 
   const chat = model.startChat({
     history: chatHistory,
-    // [
-    // {
-    //   role: "user",
-    //   parts: [{ text: "hola" }],
-    // },
-    // {
-    //   role: "model",
-    //   parts: [{ text: "¡Hola a ti también! ¿Cómo puedo ayudarte hoy?" }],
-    // },
-    // ],
+    /**
+     * 
+     * [
+     *  {
+     *    role: "user",
+     *    parts: [{ text: "hola" }],
+     *  },
+     *  {
+     *    role: "model",
+     *    parts: [{ text: "¡Hola a ti también! ¿Cómo puedo ayudarte hoy?" }],
+     *  },
+     * ],
+     */
+
     generationConfig: {
       maxOutputTokens: 100,
     },

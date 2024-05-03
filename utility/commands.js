@@ -5,13 +5,13 @@ const { bardoIA, chatIA } = require("./ia_bard");
 
 const handlePingCommand = async (interaction) => {
 
-
-    await interaction.reply(` El mensaje escrito es:  ${respuesta}`);
-
     try {
+        console.log(interaction.user)
+        // console.log(interaction.guild)
+
         let mensaje = interaction.options.getString('mensaje');
         let i = 1;
-        await interaction.reply(` El mensaje escrito es:  ${mensaje}`);
+        await interaction.reply(` El mensaje escrito es:  ${mensaje} por ${interaction.user.globalName}`);
 
         const intervalID = setInterval(async function () {
 
@@ -51,12 +51,13 @@ const handleMarcoCommand = async (interaction) => {
 
 const handleIACommand = async (interaction) => {
     let mensaje = interaction.options.getString('mensaje');
+    await interaction.reply(`Espere ...`);
 
     const respuesta = await bardoIA(mensaje);
-
-    await interaction.reply("**" + mensaje + "**" + ": \`\`\`" + respuesta + "\`\`\`");
-
+    await interaction.editReply("**" + mensaje + "**" + ": \`\`\`" + respuesta + "\`\`\`");
+    
 }
+
 
 const handleChatCommand = async (interaction) => {
     let mensaje = interaction.options.getString('mensaje');
