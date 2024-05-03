@@ -32,12 +32,20 @@ const model = genAI.getGenerativeModel({ model: "gemini-pro", safetySettings });
 
 const bardoIA = async (promt_msg) => {
 
-  const prompt = promt_msg;
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
-  return text;
-  //console.log(text);
+  try {
+    
+    const prompt = promt_msg;
+    const result = await model.generateContent(prompt, {
+      maxOutputTokens: 125,
+    });
+    const response = await result.response;
+    const text = response.text();
+    console.log(text.length);
+    return text;
+  } catch (error) {
+   console.log(error); 
+   return 'No hay respuesta.';
+  }
 }
 
 
