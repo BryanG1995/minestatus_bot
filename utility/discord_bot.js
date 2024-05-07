@@ -59,7 +59,7 @@ const handleReadyEvent = (x) => {
 
 
 
-//ejecuciones iniciales del bot, inicializacion de los comandos
+//ejecuciones iniciales del bot, inicializacion de los comandos.
 // client.on('ready', (x) => handleReadyEvent(x));
 
 const initializeClient = () => {
