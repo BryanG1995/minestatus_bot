@@ -2,8 +2,12 @@
     "version": 2,
     "rewrites": [
         {
-            "source": "/api/(.*)",
-            "destination": "/api/activate/status"
+            "source": "/api/activate/(.*)",
+            "destination": "/api/activate/$1"
+        },
+        {
+            "source": "/api/deactivate/(.*)",
+            "destination": "/api/deactivate/$1"
         },
         {
             "source": "/(.*)",
