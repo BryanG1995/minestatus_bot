@@ -1,17 +1,16 @@
 {
     "version": 2,
-    "rewrites": [
-        {
-            "source": "/api/activate/(.*)",
-            "destination": "/api/activate/$1"
-        },
-        {
-            "source": "/api/deactivate/(.*)",
-            "destination": "/api/deactivate/$1"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
+    "builds": [
+      {
+        "src": "app.js",
+        "use": "@now/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "app.js"
+      }
     ]
-}
+  }
+  
