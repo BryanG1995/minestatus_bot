@@ -21,11 +21,13 @@ const getUser = async (req, res = response) => {
 
 const createUser = async (req, res = response) => {
     try {
+        const { nickname, password, name } = req.body
+
         const newUser = await prisma.user.create({
             data: {
-                nickname: 'John.Doe',
-                password: 'jhon123',
-                name: 'John Doe'
+                nickname,
+                password,
+                name,
             }
 
         })
@@ -42,10 +44,45 @@ const createUser = async (req, res = response) => {
     }
 }
 
+const registerUserDiscord = async (nickname, password, name) => {
+    try {
+        getByNickname(nickname);
+
+        const newUser = await prisma.user.create({
+            data: {
+                nickname,
+                password,
+                name,
+            }
+        })
+        return true;
+    } catch (error) {
+        console.log("me cai", error);
+        return false
+    }
+
+}
+
+const getByNickname = async (nickname) => {
+    try {
+        const existNickname = await prisma.user.findFirst({
+            where: {
+                nickname: nickname
+            }
+        })
+        if (existNickname) {
+            throw new Error(`Nick ${nickname} ya existe`)
+        }
+        return true
+    } catch (error) {
+        console.log(error);
+    }
 
 
+}
 
 module.exports = {
     createUser,
     getUser,
+    registerUserDiscord,
 }

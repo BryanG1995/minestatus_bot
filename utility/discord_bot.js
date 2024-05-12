@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const { Client, GatewayIntentBits, SlashCommandBuilder } = require('discord.js');
-const { handleMarcoCommand, handlePingCommand, handleIACommand, handleChatCommand } = require('./commands');
+const { handleMarcoCommand, handlePingCommand, handleIACommand, handleChatCommand, handleRegistrarseCommand } = require('./commands');
 
 const { COMMANDS } = require('../constants/general');
 
@@ -49,12 +49,24 @@ const handleReadyEvent = (x) => {
         .setDescription('habla con alguien')
         .addStringOption(option =>
             option.setName('mensaje')
-                .setDescription('mensaje solicitado'));
+                .setDescription('mensaje solicitado'))
+
+
+    const registrarse = new SlashCommandBuilder()
+        .setName('registrarse')
+        .setDescription('registrate en la base de datos')
+        .addStringOption(option =>
+            option.setName('nombre')
+                .setDescription('nombre'))
+        .addStringOption(option =>
+            option.setName('password')
+                .setDescription('clave utilizada al registrarse'));
 
     client.application.commands.create(marco_comando);
     client.application.commands.create(ping);
     client.application.commands.create(bardo);
     client.application.commands.create(chat);
+    client.application.commands.create(registrarse);
 }
 
 
@@ -89,6 +101,8 @@ const handleInteraction = async (interaction) => {
             return await handleIACommand(interaction);
         case COMMANDS.CHAT:
             return await handleChatCommand(interaction);
+        case COMMANDS.REGISTRARSE:
+            return await handleRegistrarseCommand(interaction);
         default: return;
     }
     //comando de marco, devuelve un mensaje formato embed, el cual posee una mejor estructura del mensaje

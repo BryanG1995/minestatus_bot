@@ -2,6 +2,7 @@ const { INTERVAL_DURATION } = require("../constants/general");
 const pingDibujo = require("../ping_dibujo");
 const sleep = require("./sleep");
 const { bardoIA, chatIA } = require("./ia_bard");
+const { registerUserDiscord } = require('../controllers/user.controllers');
 
 const handlePingCommand = async (interaction) => {
 
@@ -69,6 +70,20 @@ const handleChatCommand = async (interaction) => {
 
 }
 
+const handleRegistrarseCommand = async (interaction) => {
+    const nombre = interaction.options.getString('nombre');
+    const password = interaction.options.getString('password');
+    const user = interaction.user.globalName;
+    
+    const registroOK = await registerUserDiscord(user, password, nombre);
+    if (registroOK) {
+    await interaction.reply("Registro correcto");
+    return
+    }
+    await interaction.reply("No se pudo registrar");
+    
+}
+
 const randomGif = () => {
 
     const randomNumber = Math.floor(Math.random() * 5);// + 1;
@@ -87,4 +102,5 @@ module.exports = {
     handleMarcoCommand,
     handleIACommand,
     handleChatCommand,
+    handleRegistrarseCommand,
 }

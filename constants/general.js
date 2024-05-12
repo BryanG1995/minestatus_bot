@@ -4,6 +4,7 @@ const COMMANDS = {
     MARCO: 'marco',
     BARDOIA: 'bardoia',
     CHAT: 'chat',
+    REGISTRARSE: 'registrarse',
 
 }
 const INTERVAL_DURATION = 1000 * 60 * 1;
