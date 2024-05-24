@@ -11,6 +11,10 @@ import {
   AttachmentBuilder
 } from 'discord.js';
 import pinturaCreate from './utility/pintura';
+// import default_server from './assets/default_server.png';
+import path from 'path';
+
+
 
 const client = new Client({
   intents: [
@@ -35,9 +39,20 @@ const pingDibujo = async (interaction: CommandInteraction) => {
     let pintura;
 
     //asignacion de data de icono recibido por la api, primero se transforma en un buffer y luego usa AttachmentBuilder
+    let bufferImage: any;
+
     const imgBase64 = data.icon;
-    const bufferImage = Buffer.from(imgBase64.split(',').slice(1).join(','), 'base64');
+    if (imgBase64) {
+      bufferImage = Buffer.from(imgBase64.split(',').slice(1).join(','), 'base64');
+
+    }
+    else{
+      bufferImage = path.resolve(__dirname, './assets/default_server.png');
+      
+    }
     const file = new AttachmentBuilder(bufferImage, { name: 'icon.png' });
+
+
 
 
     // if encargado de comprobar si el listado de jugadores está definido y si el server está online

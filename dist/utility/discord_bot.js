@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -78,31 +69,31 @@ const initializeClient = () => {
 };
 //funciones de los comandos creados anteriormente
 // client.on('interactionCreate', async (interaction) => {
-const handleInteraction = (interaction) => __awaiter(void 0, void 0, void 0, function* () {
+const handleInteraction = async (interaction) => {
     /** comando de ping, al utilizando, devuelve un mensaje escrito basico, con la info de cantidad de jugadores online y sus nicks
      *  */
     if (!interaction.isChatInputCommand())
         return;
     switch (interaction.commandName) {
         case general_1.COMMANDS.PING:
-            return yield (0, commands_1.handlePingCommand)(interaction);
+            return await (0, commands_1.handlePingCommand)(interaction);
         case general_1.COMMANDS.MARCO:
-            return yield (0, commands_1.handleMarcoCommand)(interaction);
+            return await (0, commands_1.handleMarcoCommand)(interaction);
         case general_1.COMMANDS.BARDOIA:
-            return yield (0, commands_1.handleIACommand)(interaction);
+            return await (0, commands_1.handleIACommand)(interaction);
         case general_1.COMMANDS.CHAT:
-            return yield (0, commands_1.handleChatCommand)(interaction);
+            return await (0, commands_1.handleChatCommand)(interaction);
         case general_1.COMMANDS.REGISTRARSE:
-            return yield (0, commands_1.handleRegistrarseCommand)(interaction);
+            return await (0, commands_1.handleRegistrarseCommand)(interaction);
         default: return;
     }
     //comando de marco, devuelve un mensaje formato embed, el cual posee una mejor estructura del mensaje
-});
+};
 // const loginClient = () => client.login(process.env.TOKEN);
-const loginClient = () => __awaiter(void 0, void 0, void 0, function* () {
+const loginClient = async () => {
     initializeClient();
-    return yield client.login(process.env.TOKEN);
-});
+    return await client.login(process.env.TOKEN);
+};
 exports.loginClient = loginClient;
 const destruirCliente = () => {
     if (client) {

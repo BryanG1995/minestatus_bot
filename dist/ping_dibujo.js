@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -15,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const api_1 = __importDefault(require("./api"));
 const discord_js_1 = require("discord.js");
 const pintura_1 = __importDefault(require("./utility/pintura"));
+// import default_server from './assets/default_server.png';
+const path_1 = __importDefault(require("path"));
 const client = new discord_js_1.Client({
     intents: [
         discord_js_1.GatewayIntentBits.Guilds,
@@ -22,20 +15,26 @@ const client = new discord_js_1.Client({
         discord_js_1.GatewayIntentBits.MessageContent
     ]
 });
-const pingDibujo = (interaction) => __awaiter(void 0, void 0, void 0, function* () {
+const pingDibujo = async (interaction) => {
     try {
         const options = interaction.options;
         let ip = options.getString('ip');
         if (!ip)
             return;
-        const { data } = yield api_1.default.get(ip);
+        const { data } = await api_1.default.get(ip);
         const { players } = data;
         const status_server = data.online;
         let list;
         let pintura;
         //asignacion de data de icono recibido por la api, primero se transforma en un buffer y luego usa AttachmentBuilder
+        let bufferImage;
         const imgBase64 = data.icon;
-        const bufferImage = Buffer.from(imgBase64.split(',').slice(1).join(','), 'base64');
+        if (imgBase64) {
+            bufferImage = Buffer.from(imgBase64.split(',').slice(1).join(','), 'base64');
+        }
+        else {
+            bufferImage = path_1.default.resolve(__dirname, './assets/default_server.png');
+        }
         const file = new discord_js_1.AttachmentBuilder(bufferImage, { name: 'icon.png' });
         // if encargado de comprobar si el listado de jugadores está definido y si el server está online
         if (listArray && status_server) {
@@ -54,7 +53,7 @@ const pingDibujo = (interaction) => __awaiter(void 0, void 0, void 0, function* 
         console.log(error);
         return {};
     }
-});
+};
 const listArray = (listUser) => {
     // let users = [];
     if (!listUser) {

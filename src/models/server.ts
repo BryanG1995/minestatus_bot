@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import cors from 'cors';
+// import path from 'path';
 
 interface OptionsPaths {
     activate: string;
@@ -34,6 +35,7 @@ class Server {
 
         this.app.use(express.json());
         this.app.use(express.static('public'));
+        // this.app.use('/assets', express.static(path.join(__dirname, '../assets')));
     }
 
     private routes() {

@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.chatIA = exports.bardoIA = void 0;
 const generative_ai_1 = require("@google/generative-ai");
@@ -39,11 +30,11 @@ const model = genAI.getGenerativeModel({
     safetySettings,
     generationConfig: { maxOutputTokens: 125 }
 });
-const bardoIA = (promt_msg) => __awaiter(void 0, void 0, void 0, function* () {
+const bardoIA = async (promt_msg) => {
     try {
         const prompt = promt_msg;
-        const result = yield model.generateContent(prompt);
-        const response = yield result.response;
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
         const text = response.text();
         console.log(text.length);
         return text;
@@ -52,11 +43,11 @@ const bardoIA = (promt_msg) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(error);
         return 'No hay respuesta.';
     }
-});
+};
 exports.bardoIA = bardoIA;
 let chatHistory = [];
 //** --------------------------------------------------- */
-const chatIA = (prompt_msg) => __awaiter(void 0, void 0, void 0, function* () {
+const chatIA = async (prompt_msg) => {
     const chat = model.startChat({
         history: chatHistory,
         generationConfig: {
@@ -77,8 +68,8 @@ const chatIA = (prompt_msg) => __awaiter(void 0, void 0, void 0, function* () {
          */
     });
     // const msg = "How many paws are in my house?";
-    const result = yield chat.sendMessage(prompt_msg);
-    const response = yield result.response;
+    const result = await chat.sendMessage(prompt_msg);
+    const response = await result.response;
     const text = response.text();
     chatHistory.push({
         role: 'user',
@@ -89,6 +80,6 @@ const chatIA = (prompt_msg) => __awaiter(void 0, void 0, void 0, function* () {
     });
     console.log(chatHistory);
     return text;
-});
+};
 exports.chatIA = chatIA;
 //run();

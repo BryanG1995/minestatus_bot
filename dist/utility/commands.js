@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -23,69 +14,67 @@ const ping_dibujo_1 = __importDefault(require("../ping_dibujo"));
 const sleep_1 = __importDefault(require("./sleep"));
 const ia_bard_1 = require("./ia_bard");
 const user_controllers_1 = require("../controllers/user.controllers");
-const handlePingCommand = (interaction) => __awaiter(void 0, void 0, void 0, function* () {
+const handlePingCommand = async (interaction) => {
     try {
         console.log(interaction.user);
         // console.log(interaction.guild)
         const options = interaction.options;
         let mensaje = options.getString('mensaje');
         let i = 1;
-        yield interaction.reply(` El mensaje escrito es:  ${mensaje} por ${interaction.user.globalName}`);
-        const intervalID = setInterval(function () {
-            return __awaiter(this, void 0, void 0, function* () {
-                interaction.editReply(`hola me editaron  ${i} veces cada minuto`);
-                i++;
-                if (i === 15) {
-                    clearInterval(intervalID);
-                    console.log(`Ejecución detenida después de ${i} iteraciones`);
-                    interaction.editReply(`hola me editaron  ${i} veces y cumplí mis iteraciones `);
-                }
-            });
+        await interaction.reply(` El mensaje escrito es:  ${mensaje} por ${interaction.user.globalName}`);
+        const intervalID = setInterval(async function () {
+            interaction.editReply(`hola me editaron  ${i} veces cada minuto`);
+            i++;
+            if (i === 15) {
+                clearInterval(intervalID);
+                console.log(`Ejecución detenida después de ${i} iteraciones`);
+                interaction.editReply(`hola me editaron  ${i} veces y cumplí mis iteraciones `);
+            }
         }, general_1.INTERVAL_DURATION);
     }
     catch (error) {
         console.log(error);
     }
-});
+};
 exports.handlePingCommand = handlePingCommand;
-const handleMarcoCommand = (interaction) => __awaiter(void 0, void 0, void 0, function* () {
-    const dibujo = yield (0, ping_dibujo_1.default)(interaction);
+const handleMarcoCommand = async (interaction) => {
+    const dibujo = await (0, ping_dibujo_1.default)(interaction);
     if (!dibujo)
         return;
     if (Object.keys(dibujo).length === 0) {
-        yield interaction.reply('hola, fallé');
+        await interaction.reply('hola, fallé');
         return;
     }
-    yield interaction.reply(dibujo);
-    const dibujoNew = yield (0, sleep_1.default)(general_1.INTERVAL_DURATION, interaction);
+    await interaction.reply(dibujo);
+    const dibujoNew = await (0, sleep_1.default)(general_1.INTERVAL_DURATION, interaction);
     if (!dibujoNew)
         return;
     if (Object.keys(dibujoNew).length === 0) {
-        yield interaction.reply('hola, fallé rayos!');
+        await interaction.reply('hola, fallé rayos!');
         return;
     }
-    yield interaction.editReply(dibujoNew);
-});
+    await interaction.editReply(dibujoNew);
+};
 exports.handleMarcoCommand = handleMarcoCommand;
-const handleIACommand = (interaction) => __awaiter(void 0, void 0, void 0, function* () {
+const handleIACommand = async (interaction) => {
     const options = interaction.options;
     let mensaje = options.getString('mensaje');
     const gif = randomGif();
-    yield interaction.reply(gif);
-    const respuesta = yield (0, ia_bard_1.bardoIA)(mensaje);
-    yield interaction.editReply("**" + mensaje + "**" + ": \`\`\`" + respuesta + "\`\`\`");
-});
+    await interaction.reply(gif);
+    const respuesta = await (0, ia_bard_1.bardoIA)(mensaje);
+    await interaction.editReply("**" + mensaje + "**" + ": \`\`\`" + respuesta + "\`\`\`");
+};
 exports.handleIACommand = handleIACommand;
-const handleChatCommand = (interaction) => __awaiter(void 0, void 0, void 0, function* () {
+const handleChatCommand = async (interaction) => {
     const options = interaction.options;
     let mensaje = options.getString('mensaje');
     if (!mensaje)
         return;
-    const respuesta = yield (0, ia_bard_1.chatIA)(mensaje);
-    yield interaction.reply("\`\`\`" + respuesta + "\`\`\`");
-});
+    const respuesta = await (0, ia_bard_1.chatIA)(mensaje);
+    await interaction.reply("\`\`\`" + respuesta + "\`\`\`");
+};
 exports.handleChatCommand = handleChatCommand;
-const handleRegistrarseCommand = (interaction) => __awaiter(void 0, void 0, void 0, function* () {
+const handleRegistrarseCommand = async (interaction) => {
     const options = interaction.options;
     const nombre = options.getString('nombre');
     const password = options.getString('password');
@@ -96,13 +85,13 @@ const handleRegistrarseCommand = (interaction) => __awaiter(void 0, void 0, void
         return;
     if (!nombre)
         return;
-    const registroOK = yield (0, user_controllers_1.registerUserDiscord)(nickname, password, nombre);
+    const registroOK = await (0, user_controllers_1.registerUserDiscord)(nickname, password, nombre);
     if (registroOK) {
-        yield interaction.reply("Registro correcto");
+        await interaction.reply("Registro correcto");
         return;
     }
-    yield interaction.reply("No se pudo registrar");
-});
+    await interaction.reply("No se pudo registrar");
+};
 exports.handleRegistrarseCommand = handleRegistrarseCommand;
 const randomGif = () => {
     const randomNumber = Math.floor(Math.random() * 5); // + 1;

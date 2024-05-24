@@ -6,10 +6,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 class Server {
+    app;
+    port;
+    path;
     constructor() {
-        var _a;
         this.app = (0, express_1.default)();
-        this.port = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 8080;
+        this.port = process.env.PORT ?? 8080;
         this.path = {
             activate: '/api/activate',
             deactivate: '/api/deactivate',
@@ -23,6 +25,7 @@ class Server {
         this.app.use((0, cors_1.default)());
         this.app.use(express_1.default.json());
         this.app.use(express_1.default.static('public'));
+        // this.app.use('/assets', express.static(path.join(__dirname, '../assets')));
     }
     routes() {
         this.app.use(this.path.activate, require('../routes/activate').default);
